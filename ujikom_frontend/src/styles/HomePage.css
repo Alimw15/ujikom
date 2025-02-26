@@ -1,0 +1,158 @@
+.home-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1f2937;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #4b5563;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+.nav-item.active {
+  background-color: #2563eb;
+}
+
+.nav-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f3f4f6;
+}
+
+.main-header {
+  margin-bottom: 2rem;
+}
+
+.main-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #111827;
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.scanner-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4b5563;
+}
+
+.scan-result {
+  width: 100%;
+  max-width: 400px;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  margin-left: 9rem;
+}
+
+.scan-result.berhasil {
+  background-color: #d1fae5;
+  border: 1px solid #34d399;
+}
+
+.scan-result.gagal {
+  background-color: #fee2e2;
+  border: 1px solid #f87171;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th,
+.history-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.history-table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+.status-badge.berhasil {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.gagal {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.logout-btn {
+  margin-top: auto;
+  color: #dc2626;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #fee2e2;
+}
