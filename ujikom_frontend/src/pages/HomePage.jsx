@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
-import QrReader from "react-qr-scanner";
 import Swal from "sweetalert2";
 import axiosInstance from "../utils/axiosInstance";
-import "../styles/HomePage.css"; // Pastikan membuat file CSS ini
+import "../styles/HomePage.css";
 import { QRCodeCanvas } from "qrcode.react";
 
 const HomePage = () => {
   const [users, setUsers] = useState([]);
-  const [scannedData, setScannedData] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [lastScan, setLastScan] = useState(null);
-  const [activeContent, setActiveContent] = useState("scan");
+  const [activeContent, setActiveContent] = useState("generate");
   const [scanHistory, setScanHistory] = useState([]);
   const [qrToken, setQrToken] = useState("");
   const [loading, setLoading] = useState(false);
@@ -219,6 +215,22 @@ const HomePage = () => {
     document.body.removeChild(downloadLink);
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await axiosInstance.post("/api/auth/logout");
+      if (response.status === 200) {
+        window.location.href = "/";
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Gagal logout. Silakan coba lagi.",
+        icon: "error",
+      });
+    }
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -254,19 +266,7 @@ const HomePage = () => {
         <nav className="sidebar-nav">
           <a
             href="#"
-            className={`nav-item ${activeContent === "scan" ? "active" : ""}`}
-            onClick={() => setActiveContent("scan")}
-          >
-            <svg className="nav-icon" viewBox="0 0 24 24">
-              <path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-            </svg>
-            Scan QR Code
-          </a>
-          <a
-            href="#"
-            className={`nav-item ${
-              activeContent === "generate" ? "active" : ""
-            }`}
+            className={`nav-item ${activeContent === "generate" ? "active" : ""}`}
             onClick={() => setActiveContent("generate")}
           >
             <svg className="nav-icon" viewBox="0 0 24 24">
@@ -276,9 +276,7 @@ const HomePage = () => {
           </a>
           <a
             href="#"
-            className={`nav-item ${
-              activeContent === "history" ? "active" : ""
-            }`}
+            className={`nav-item ${activeContent === "history" ? "active" : ""}`}
             onClick={() => setActiveContent("history")}
           >
             <svg className="nav-icon" viewBox="0 0 24 24">
@@ -287,51 +285,19 @@ const HomePage = () => {
             Riwayat Scan
           </a>
         </nav>
+        <div className="sidebar-footer">
+          <button className="logout-btn" onClick={handleLogout}>
+            <svg className="nav-icon" viewBox="0 0 24 24">
+              <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
       <div className="main-content">
-        {activeContent === "scan" ? (
-          <>
-            <header className="main-header">
-              <h1>Scan QR Code</h1>
-            </header>
-
-            <main className="content">
-              <div className="card">
-                <div className="scanner-container">
-                  <QrReader
-                    constraints={{
-                      facingMode: "environment",
-                      video: true,
-                    }}
-                    delay={300}
-                    onError={handleError}
-                    onScan={handleScan}
-                    style={{ width: "100%", maxWidth: "400px", margin: "0 0 0 10rem" }}
-                  />
-
-                  {isLoading && (
-                    <div className="loading-indicator">
-                      <span>Memproses...</span>
-                    </div>
-                  )}
-
-                  {lastScan && (
-                    <div
-                      className={`scan-result ${lastScan.status.toLowerCase()}`}
-                    >
-                      <h3>Hasil Scan Terakhir</h3>
-                      <p>Waktu: {lastScan.waktu}</p>
-                      <p>Status: {lastScan.status}</p>
-                      <p>Pesan: {lastScan.pesan}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </main>
-          </>
-        ) : activeContent === "generate" ? (
+        {activeContent === "generate" ? (
           <>
             <header className="main-header">
               <h1>Generate QR Code</h1>
@@ -396,7 +362,7 @@ const HomePage = () => {
             <main className="content">
               <div className="card">
                 <div className="table-responsive">
-                  <table className="history-table">
+                  <table className="user-table">
                     <thead>
                       <tr>
                         <th>No</th>
